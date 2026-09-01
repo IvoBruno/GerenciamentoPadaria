@@ -1,0 +1,13 @@
+{
+  "name": "gerenciamento-padaria",
+  "version": "1.0.0",
+  "description": "Bakery Supply Chain Simulation Game",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Coordenadas Finder</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f0f0f0;
+    }
+    .container {
+      position: relative;
+      width: 1100px;
+      height: 600px;
+      border: 2px solid red;
+      background-image: url('assets/images/layout-01.png');
+      background-size: 100% 100%;
+      cursor: crosshair;
+    }
+    #info {
+      margin-top: 15px;
+      font-size: 16px;
+      font-weight: bold;
+      background-white: #fff;
+      padding: 10px;
+      border-radius: 5px;
+      display: inline-block;
+    }
+    .marker {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: red;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .coordinate-list {
+      margin-top: 20px;
+      font-family: monospace;
+      background: white;
+      padding: 15px;
+      border-radius: 5px;
+      max-width: 600px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Clique na imagem para obter as coordenadas</h1>
+  <p>Abra o console do navegador ou clique nos locais correspondentes aos campos do tabuleiro.</p>
+  
+  <div class="container" id="board"></div>
+  
+  <div id="info">Coordenadas: clique no tabuleiro</div>
+  
+  <div class="coordinate-list">
+    <h3>Lista de Cliques:</h3>
+    <ol id="clicks-log"></ol>
+  </div>
+
+  <script>
+    const board = document.getElementById('board');
+    const info = document.getElementById('info');
+    const clicksLog = document.getElementById('clicks-log');
+
+    board.addEventListener('click', (e) => {
+      const rect = board.getBoundingClientRect();
+      const x = Math.round(e.clientX - rect.left);
+      const y = Math.round(e.clientY - rect.top);
+      
+      info.textContent = `Coordenadas Clientes: left: ${x}px; top: ${y}px;`;
+      console.log(`left: ${x}px; top: ${y}px;`);
+      
+      // Place marker
+      const marker = document.createElement('div');
+      marker.className = 'marker';
+      marker.style.left = `${x}px`;
+      marker.style.top = `${y}px`;
+      board.appendChild(marker);
+      
+      // Log click
+      const li = document.createElement('li');
+      li.textContent = `left: ${x}px; top: ${y}px;`;
+      clicksLog.appendChild(li);
+    });
+  </script>
+</body>
+</html>
