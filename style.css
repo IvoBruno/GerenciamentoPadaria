@@ -16,9 +16,12 @@
   --success-color: #10b981;
   --danger-color: #ef4444;
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-md:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 /* Reset */
@@ -29,7 +32,7 @@
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   background-color: var(--background-color);
   color: var(--text-main);
   line-height: 1.5;
@@ -130,8 +133,14 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Buttons */
@@ -151,7 +160,11 @@ body {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--primary-dark)
+  );
   color: white;
   box-shadow: 0 4px 10px rgba(217, 119, 6, 0.3);
 }
@@ -319,7 +332,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
   transform-origin: top center;
-  background-color: #FFF;
+  background-color: #fff;
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
@@ -337,7 +350,7 @@ body {
   font-weight: 700;
   position: absolute;
   text-align: center;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -345,8 +358,8 @@ body {
 }
 
 .beergame-game-play-tabuleiro-input-semanas {
-  top: 84px;
-  left: 38px;
+  top: 19px;
+  left: 46px;
   font-size: 32px;
   color: #d97706;
 }
@@ -354,8 +367,8 @@ body {
 .beergame-game-play-tabuleiro-input-pedido {
   width: 70px !important;
   height: 38px !important;
-  top: 216px;
-  left: 176px;
+  top: 185px;
+  left: 195px;
   background: white;
   border: 2px solid var(--primary-color);
   border-radius: 6px;
@@ -369,8 +382,8 @@ body {
 
 /* Submit order button positioning */
 .beergame-play .btn-enviar-pedido {
-  top: 263px;
-  left: 174px;
+  top: 225px;
+  left: 195px;
   width: 74px;
   height: auto;
   position: absolute;
@@ -400,44 +413,44 @@ body {
 
 /* Coordinates for standard board values */
 .beergame-game-play-tabuleiro-input-casa[data-casa="transito"] {
-  top: 194px;
-  left: 316px;
+  top: 160px;
+  left: 345px;
 }
 
 .beergame-game-play-tabuleiro-input-casa[data-casa="processo"] {
-  top: 230px;
+  top: 200px;
   left: 510px;
 }
 
 .beergame-game-play-tabuleiro-input-casa[data-casa="estoque"] {
-  top: 328px;
+  top: 275px;
   left: 665px;
 }
 
 .beergame-game-play-tabuleiro-input-casa[data-casa="nao-atendidos"] {
-  top: 379px;
-  left: 838px;
+  top: 305px;
+  left: 840px;
 }
 
 .beergame-game-play-tabuleiro-input-casa[data-casa="consumidores"] {
-  top: 251px;
-  left: 955px;
+  top: 200px;
+  left: 975px;
 }
 
 /* Bottom costs coordinates */
 .beergame-game-play-tabuleiro-input-casa[data-casa="demanda"] {
-  top: 552px;
-  left: 383px;
+  top: 475px;
+  left: 410px;
 }
 
 .beergame-game-play-tabuleiro-input-casa[data-casa="backorders"] {
-  top: 543px;
-  left: 579px;
+  top: 475px;
+  left: 595px;
 }
 
 .beergame-game-play-tabuleiro-input-casa[data-casa="total"] {
-  top: 552px;
-  left: 738px;
+  top: 475px;
+  left: 740px;
   width: 90px;
   font-size: 20px;
 }
@@ -487,8 +500,14 @@ body {
 }
 
 @keyframes modalSlide {
-  from { transform: translateY(-30px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .beergame-modal-conteudo-titulo {
@@ -722,17 +741,17 @@ body {
   .footer-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .results-summary {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .cookies .content {
     flex-direction: column;
     text-align: center;
     gap: 15px;
   }
-  
+
   .cookies .btn-cookie {
     width: 100%;
   }
