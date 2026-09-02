@@ -437,22 +437,20 @@ body {
   left: 975px;
 }
 
-/* Bottom costs coordinates */
+/* Bottom mercado coordinates (Demanda + Backorders = Total Pedidos) */
 .beergame-game-play-tabuleiro-input-casa[data-casa="demanda"] {
-  top: 475px;
+  top: 473px;
   left: 410px;
 }
 
 .beergame-game-play-tabuleiro-input-casa[data-casa="backorders"] {
-  top: 475px;
+  top: 473px;
   left: 595px;
 }
 
 .beergame-game-play-tabuleiro-input-casa[data-casa="total"] {
-  top: 475px;
-  left: 740px;
-  width: 90px;
-  font-size: 20px;
+  top: 473px;
+  left: 763px;
 }
 
 .beergame-game-play-acao {

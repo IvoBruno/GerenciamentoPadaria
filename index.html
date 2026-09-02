@@ -1,329 +1,518 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="theme-color" content="#d97706">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="#d97706">
-  <meta name="author" content="Gerenciamento de Padaria" />
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta name="theme-color" content="#d97706" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="#d97706" />
+    <meta name="author" content="Gerenciamento de Padaria" />
 
-  <title>Simulador de Cadeia de Suprimentos - Gerenciamento de Padaria</title>
-  
-  <!-- SEO Meta -->
-  <meta name="description" content="Simule o gerenciamento de cadeia de suprimentos de uma padaria e aprenda a controlar o estoque e a demanda." />
+    <title>Simulador de Cadeia de Suprimentos - Gerenciamento de Padaria</title>
 
-  <!-- Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  
-  <!-- Chart.js for premium statistics -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- SEO Meta -->
+    <meta
+      name="description"
+      content="Simule o gerenciamento de cadeia de suprimentos de uma padaria e aprenda a controlar o estoque e a demanda."
+    />
 
-  <!-- Style Sheets -->
-  <link rel="stylesheet" href="style.css">
-</head>
-<body class="beergame-play">
+    <!-- Fonts & Icons -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- Header -->
-  <header class="header">
-    <div class="content header-flex">
-      <div class="logotipo">
-        <a href="#" title="Gerenciamento de Padaria">
-          <div class="logo-container">
-            <span class="logo-icon">🍞</span>
-            <span class="logo-text">Padaria <span class="logo-highlight">Simulação</span></span>
-          </div>
-        </a>
-      </div>
-      <nav class="menu-principal">
-        <ul>
-          <li class="menu-principal-item"><a href="#" id="menuHome">Início</a></li>
-          <li class="menu-principal-item"><a href="#" id="menuRegras">Regras</a></li>
-          <li class="menu-principal-item"><a href="#" id="menuNovoJogo">Novo Jogo</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+    <!-- Chart.js for premium statistics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <!-- Main Game Section -->
-  <main class="main-content">
-    
-    <!-- Registration Screen -->
-    <section id="registration-screen" class="screen">
-      <div class="card registration-card">
-        <div class="card-header">
-          <h2>Bem-vindo ao Simulador de Padaria</h2>
-          <p>Gerencie a cadeia de suprimentos e mantenha o estoque de pães em perfeito equilíbrio.</p>
+    <!-- Style Sheets -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="beergame-play">
+    <!-- Header -->
+    <header class="header">
+      <div class="content header-flex">
+        <div class="logotipo">
+          <a href="#" title="Gerenciamento de Padaria">
+            <div class="logo-container">
+              <span class="logo-icon">🍞</span>
+              <span class="logo-text"
+                >Padaria <span class="logo-highlight">Simulação</span></span
+              >
+            </div>
+          </a>
         </div>
-        <form id="start-game-form" class="form">
-          <div class="form-group">
-            <label for="player-name">Nome Completo</label>
-            <input type="text" id="player-name" placeholder="Digite seu nome completo" required />
-          </div>
-          
-          <div class="form-group">
-            <label for="player-nick">Apelido (exibido no painel)</label>
-            <input type="text" id="player-nick" placeholder="Digite um apelido" required />
-          </div>
-          
-          <div class="form-group">
-            <label for="player-email">E-mail</label>
-            <input type="email" id="player-email" placeholder="Digite seu melhor e-mail" required />
-          </div>
-          
-          <div class="form-group">
-            <label for="player-type">Qual seu perfil profissional?</label>
-            <select id="player-type" required>
-              <option value="" disabled selected>Selecione uma opção</option>
-              <option value="estudante">Estudante Acadêmico / Técnico</option>
-              <option value="profissional">Profissional de Logística / Operações</option>
-              <option value="entusiasta">Entusiasta de Jogos de Gestão</option>
-            </select>
-          </div>
-          
-          <div class="form-group checkbox-group">
-            <label>
-              <input type="checkbox" id="accept-ranking" checked />
-              Aceito participar do ranking local de gestores.
-            </label>
-          </div>
-          
-          <button type="submit" class="btn btn-primary btn-block">
-            Começar Simulação
-          </button>
-        </form>
+        <nav class="menu-principal">
+          <ul>
+            <li class="menu-principal-item">
+              <a href="#" id="menuHome">Início</a>
+            </li>
+            <li class="menu-principal-item">
+              <a href="#" id="menuRegras">Regras</a>
+            </li>
+            <li class="menu-principal-item">
+              <a href="#" id="menuNovoJogo">Novo Jogo</a>
+            </li>
+          </ul>
+        </nav>
       </div>
-    </section>
+    </header>
 
-    <!-- Game Play Board Screen -->
-    <section id="game-screen" class="screen hide">
-      <div class="content">
-        <div class="beergame-game-play-topo">
-          <div class="nome-jogador">Olá, <span id="display-player-nick">Jogador</span>!</div>
-          
-          <div class="btn-regras">
-            <button id="btnRegras" class="beergame-modal-regras" title="Ver Regras">
-              <img src="assets/images/regras.png" alt="Regras">
+    <!-- Main Game Section -->
+    <main class="main-content">
+      <!-- Registration Screen -->
+      <section id="registration-screen" class="screen">
+        <div class="card registration-card">
+          <div class="card-header">
+            <h2>Bem-vindo ao Simulador de Padaria</h2>
+            <p>
+              Gerencie a cadeia de suprimentos e mantenha o estoque de pães em
+              perfeito equilíbrio.
+            </p>
+          </div>
+          <form id="start-game-form" class="form">
+            <div class="form-group">
+              <label for="player-name">Nome Completo</label>
+              <input
+                type="text"
+                id="player-name"
+                placeholder="Digite seu nome completo"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="player-nick">Apelido (exibido no painel)</label>
+              <input
+                type="text"
+                id="player-nick"
+                placeholder="Digite um apelido"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="player-email">E-mail</label>
+              <input
+                type="email"
+                id="player-email"
+                placeholder="Digite seu melhor e-mail"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="player-type">Qual seu perfil profissional?</label>
+              <select id="player-type" required>
+                <option value="" disabled selected>Selecione uma opção</option>
+                <option value="estudante">Estudante Acadêmico / Técnico</option>
+                <option value="profissional">
+                  Profissional de Logística / Operações
+                </option>
+                <option value="entusiasta">
+                  Entusiasta de Jogos de Gestão
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group checkbox-group">
+              <label>
+                <input type="checkbox" id="accept-ranking" checked />
+                Aceito participar do ranking local de gestores.
+              </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">
+              Começar Simulação
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- Game Play Board Screen -->
+      <section id="game-screen" class="screen hide">
+        <div class="content">
+          <div class="beergame-game-play-topo">
+            <div class="nome-jogador">
+              Olá, <span id="display-player-nick">Jogador</span>!
+            </div>
+
+            <div class="btn-regras">
+              <button
+                id="btnRegras"
+                class="beergame-modal-regras"
+                title="Ver Regras"
+              >
+                <img src="assets/images/regras.png" alt="Regras" />
+              </button>
+            </div>
+            <div class="both"></div>
+          </div>
+
+          <div class="board-outer-container">
+            <div class="board-container">
+              <!-- Game Board with absolute coordinate positioning -->
+              <div class="beergame-game-play-tabuleiro">
+                <!-- Weeks visualizer -->
+                <div
+                  class="beergame-game-play-tabuleiro-input-semanas"
+                  id="val-semana"
+                >
+                  01
+                </div>
+
+                <!-- Input order and submit button -->
+                <div class="beergame-play-tour">
+                  <input
+                    type="number"
+                    min="0"
+                    max="99"
+                    id="quantidade-pedido"
+                    value=""
+                    placeholder="0"
+                    class="beergame-game-play-tabuleiro-input-pedido"
+                  />
+
+                  <button
+                    type="button"
+                    class="btn-enviar-pedido"
+                    id="btnEnviarPedido"
+                  >
+                    <img
+                      src="assets/images/enviar.png"
+                      alt="Enviar"
+                      class="btn-enviar-pedido-active"
+                    />
+                  </button>
+                </div>
+
+                <!-- Game State Fields (placed over layout background coordinates) -->
+                <div
+                  class="beergame-game-play-tabuleiro-input-casa"
+                  data-casa="transito"
+                  id="val-transito"
+                >
+                  10
+                </div>
+                <div
+                  class="beergame-game-play-tabuleiro-input-casa"
+                  data-casa="processo"
+                  id="val-processo"
+                >
+                  10
+                </div>
+                <div
+                  class="beergame-game-play-tabuleiro-input-casa"
+                  data-casa="estoque"
+                  id="val-estoque"
+                >
+                  10
+                </div>
+                <div
+                  class="beergame-game-play-tabuleiro-input-casa"
+                  data-casa="nao-atendidos"
+                  id="val-nao-atendidos"
+                >
+                  0
+                </div>
+                <div
+                  class="beergame-game-play-tabuleiro-input-casa"
+                  data-casa="consumidores"
+                  id="val-consumidores"
+                >
+                  10
+                </div>
+
+                <!-- Mercado / Demand Sum Fields at the bottom -->
+                <div
+                  class="beergame-game-play-tabuleiro-input-casa"
+                  data-casa="demanda"
+                  id="val-demanda"
+                >
+                  10
+                </div>
+                <div
+                  class="beergame-game-play-tabuleiro-input-casa"
+                  data-casa="backorders"
+                  id="val-backorders"
+                >
+                  0
+                </div>
+                <div
+                  class="beergame-game-play-tabuleiro-input-casa"
+                  data-casa="total"
+                  id="val-total"
+                >
+                  10
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Restart action -->
+          <div class="beergame-game-play-acao">
+            <button id="btnResetarJogo" class="btn btn-secondary">
+              Reiniciar Simulação
             </button>
           </div>
-          <div class="both"></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Instructions Modal (Slider Steps 1-4) -->
+    <div class="beergame-modal" id="instructions-modal">
+      <div class="beergame-modal-conteudo">
+        <div class="beergame-modal-conteudo-titulo">
+          <img
+            src="assets/images/instrucoes.png"
+            class="beergame-modal-step beergame-modal-step-1"
+            alt="Instruções"
+          />
+          <img
+            src="assets/images/como_jogar.png"
+            class="beergame-modal-step beergame-modal-step-2"
+            alt="Como Jogar"
+            style="display: none"
+          />
+          <img
+            src="assets/images/seu_objetivo.png"
+            class="beergame-modal-step beergame-modal-step-3"
+            alt="Seu Objetivo"
+            style="display: none"
+          />
+          <img
+            src="assets/images/resultado.png"
+            class="beergame-modal-step beergame-modal-step-4"
+            alt="Resultado"
+            style="display: none"
+          />
         </div>
 
-        <div class="board-outer-container">
-          <div class="board-container">
-            <!-- Game Board with absolute coordinate positioning -->
-            <div class="beergame-game-play-tabuleiro">
-              <!-- Weeks visualizer -->
-              <div class="beergame-game-play-tabuleiro-input-semanas" id="val-semana">01</div>
+        <div class="beergame-modal-conteudo-texto">
+          <!-- Step 1 -->
+          <div class="beergame-modal-step beergame-modal-step-1">
+            <div class="beergame-modal-step-texto">
+              O jogo <strong>inicia-se em equilíbrio</strong>. Os consumidores
+              <strong>estão pedindo 10 fornadas de pão</strong> e
+              <strong>você tem 10 fornadas</strong> em estoque de produtos
+              prontos a cada semana. <br /><br />
+              O jogo é simples: na segunda semana, seus consumidores
+              <strong>aumentarão seus pedidos de 10 para 15 fornadas</strong>
+              devido a uma campanha promocional feita pela padaria. Este valor
+              de demanda ficará fixo para as semanas seguintes. O seu papel será
+              realizar os pedidos de farinha para abastecer a produção.
+              <br /><br />
+              <strong>Custo de Manutenção do Estoque:</strong> R$ 1,00 por
+              fornada/semana.<br />
+              <strong>Custo de Falta de Estoque (Atrasos):</strong> R$ 1,50 por
+              fornada/semana.
+            </div>
+            <div class="both"></div>
+            <div class="modal-nav-buttons">
+              <button
+                class="beergame-modal-conteudo-btn -proximo"
+                data-step="1"
+              >
+                <img src="assets/images/proximo.png" alt="Avançar" />
+              </button>
+            </div>
+          </div>
 
-              <!-- Input order and submit button -->
-              <div class="beergame-play-tour">
-                <input type="number" min="0" max="99" id="quantidade-pedido" value="" placeholder="0" class="beergame-game-play-tabuleiro-input-pedido">
-                
-                <button type="button" class="btn-enviar-pedido" id="btnEnviarPedido">
-                  <img src="assets/images/enviar.png" alt="Enviar" class="btn-enviar-pedido-active">
-                </button>
-              </div>
+          <!-- Step 2 -->
+          <div
+            class="beergame-modal-step beergame-modal-step-2"
+            style="display: none"
+          >
+            <div class="beergame-modal-step-texto">
+              Esta é uma versão do simulador com apenas
+              <strong>dois elos</strong> da cadeia de suprimentos da padaria: a
+              <strong>Produção / Forno</strong> e a
+              <strong>Frente de Caixa (Varejo)</strong>. <br /><br />
+              Você tem a informação perfeita sobre a demanda do consumidor. Você
+              sabe com certeza que ela
+              <strong
+                >irá crescer na segunda semana da simulação para 15
+                fornadas</strong
+              >
+              (aumento de 50%) devido a investimentos locais em marketing. A
+              demanda ficará constante para as próximas semanas até o final do
+              jogo.
+            </div>
+            <div class="both"></div>
+            <div class="modal-nav-buttons">
+              <button class="beergame-modal-conteudo-btn -voltar" data-step="1">
+                <img src="assets/images/voltar.png" alt="Voltar" />
+              </button>
+              <button
+                class="beergame-modal-conteudo-btn -proximo"
+                data-step="2"
+              >
+                <img src="assets/images/proximo.png" alt="Avançar" />
+              </button>
+            </div>
+          </div>
 
-              <!-- Game State Fields (placed over layout background coordinates) -->
-              <div class="beergame-game-play-tabuleiro-input-casa" data-casa="transito" id="val-transito">10</div>
-              <div class="beergame-game-play-tabuleiro-input-casa" data-casa="processo" id="val-processo">10</div>
-              <div class="beergame-game-play-tabuleiro-input-casa" data-casa="estoque" id="val-estoque">10</div>
-              <div class="beergame-game-play-tabuleiro-input-casa" data-casa="nao-atendidos" id="val-nao-atendidos">0</div>
-              <div class="beergame-game-play-tabuleiro-input-casa" data-casa="consumidores" id="val-consumidores">10</div>
-              
-              <!-- Cost Fields at the bottom -->
-              <div class="beergame-game-play-tabuleiro-input-casa" data-casa="demanda" id="val-demanda">10</div>
-              <div class="beergame-game-play-tabuleiro-input-casa" data-casa="backorders" id="val-backorders">0</div>
-              <div class="beergame-game-play-tabuleiro-input-casa" data-casa="total" id="val-total">0.00</div>
+          <!-- Step 3 -->
+          <div
+            class="beergame-modal-step beergame-modal-step-3"
+            style="display: none"
+          >
+            <div class="beergame-modal-step-texto">
+              <strong>Retornar o sistema ao equilíbrio!</strong>
+              <br /><br />
+              Seu objetivo principal é gerenciar os pedidos de matéria-prima
+              para que o estoque de produtos prontos se estabilize exatamente em
+              15 fornadas semana após semana, evitando falta de pães ou sobras
+              desnecessárias.
+              <br /><br />
+              Você terá até <strong>50 semanas</strong> para atingir este
+              objetivo. Esta tarefa exige atenção no tempo de entrega (Lead
+              Time) dos pedidos!
+            </div>
+            <div class="both"></div>
+            <div class="modal-nav-buttons">
+              <button class="beergame-modal-conteudo-btn -voltar" data-step="2">
+                <img src="assets/images/voltar.png" alt="Voltar" />
+              </button>
+              <button
+                class="beergame-modal-conteudo-btn -proximo"
+                data-step="3"
+              >
+                <img src="assets/images/proximo.png" alt="Avançar" />
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div
+            class="beergame-modal-step beergame-modal-step-4"
+            style="display: none"
+          >
+            <div class="beergame-modal-step-texto">
+              Ao final da 50ª semana, você
+              <strong>receberá um relatório completo</strong> com seu desempenho
+              financeiro e eficiência logística como gerente de suprimentos da
+              padaria. <br /><br />
+              Use o tempo de atraso a seu favor e evite o Efeito Chicote!
+              <br /><br />
+              <strong>Boa sorte!</strong>
+            </div>
+            <div class="both"></div>
+            <div class="modal-nav-buttons">
+              <button class="beergame-modal-conteudo-btn -voltar" data-step="3">
+                <img src="assets/images/voltar.png" alt="Voltar" />
+              </button>
+              <button
+                class="beergame-modal-conteudo-btn -comecar"
+                id="btnFecharInstrucoes"
+              >
+                <img src="assets/images/comecar.png" alt="Começar" />
+              </button>
             </div>
           </div>
         </div>
-
-        <!-- Restart action -->
-        <div class="beergame-game-play-acao">
-          <button id="btnResetarJogo" class="btn btn-secondary">Reiniciar Simulação</button>
-        </div>
       </div>
-    </section>
+    </div>
 
-  </main>
-
-  <!-- Instructions Modal (Slider Steps 1-4) -->
-  <div class="beergame-modal" id="instructions-modal">
-    <div class="beergame-modal-conteudo">
-      <div class="beergame-modal-conteudo-titulo">
-        <img src="assets/images/instrucoes.png" class="beergame-modal-step beergame-modal-step-1" alt="Instruções">
-        <img src="assets/images/como_jogar.png" class="beergame-modal-step beergame-modal-step-2" alt="Como Jogar" style="display:none;">
-        <img src="assets/images/seu_objetivo.png" class="beergame-modal-step beergame-modal-step-3" alt="Seu Objetivo" style="display:none;">
-        <img src="assets/images/resultado.png" class="beergame-modal-step beergame-modal-step-4" alt="Resultado" style="display:none;">
-      </div>
-      
-      <div class="beergame-modal-conteudo-texto">
-        <!-- Step 1 -->
-        <div class="beergame-modal-step beergame-modal-step-1">
-          <div class="beergame-modal-step-texto">
-            O jogo <strong>inicia-se em equilíbrio</strong>. Os consumidores <strong>estão pedindo 10 fornadas de pão</strong> e <strong>você tem 10 fornadas</strong> em estoque de produtos prontos a cada semana. 
-            <br><br>
-            O jogo é simples: na segunda semana, seus consumidores <strong>aumentarão seus pedidos de 10 para 15 fornadas</strong> devido a uma campanha promocional feita pela padaria. Este valor de demanda ficará fixo para as semanas seguintes. O seu papel será realizar os pedidos de farinha para abastecer a produção.
-            <br><br>
-            <strong>Custo de Manutenção do Estoque:</strong> R$ 1,00 por fornada/semana.<br>
-            <strong>Custo de Falta de Estoque (Atrasos):</strong> R$ 1,50 por fornada/semana.
-          </div>
-          <div class="both"></div>
-          <div class="modal-nav-buttons">
-            <button class="beergame-modal-conteudo-btn -proximo" data-step="1">
-              <img src="assets/images/proximo.png" alt="Avançar">
-            </button>
+    <!-- Game Over Modal -->
+    <div class="beergame-modal" id="game-over-modal">
+      <div class="beergame-modal-fim">
+        <div class="beergame-modal-ilustracao">
+          <!-- Bread game over banner / image -->
+          <div class="finish-banner">
+            <h2>Simulação Concluída!</h2>
+            <p>Veja seus resultados no gerenciamento da padaria</p>
           </div>
         </div>
 
-        <!-- Step 2 -->
-        <div class="beergame-modal-step beergame-modal-step-2" style="display:none;">
-          <div class="beergame-modal-step-texto">
-            Esta é uma versão do simulador com apenas <strong>dois elos</strong> da cadeia de suprimentos da padaria: a <strong>Produção / Forno</strong> e a <strong>Frente de Caixa (Varejo)</strong>.
-            <br><br>
-            Você tem a informação perfeita sobre a demanda do consumidor. Você sabe com certeza que ela <strong>irá crescer na segunda semana da simulação para 15 fornadas</strong> (aumento de 50%) devido a investimentos locais em marketing. A demanda ficará constante para as próximas semanas até o final do jogo.
+        <!-- Statistics summary -->
+        <div class="results-summary">
+          <div class="stat-card">
+            <span class="stat-label">Custo Total Acumulado</span>
+            <span class="stat-value" id="res-total-cost">R$ 0.00</span>
           </div>
-          <div class="both"></div>
-          <div class="modal-nav-buttons">
-            <button class="beergame-modal-conteudo-btn -voltar" data-step="1">
-              <img src="assets/images/voltar.png" alt="Voltar">
-            </button>
-            <button class="beergame-modal-conteudo-btn -proximo" data-step="2">
-              <img src="assets/images/proximo.png" alt="Avançar">
-            </button>
+          <div class="stat-card">
+            <span class="stat-label" id="res-label-weeks"
+              >Semanas Simuladas</span
+            >
+            <span class="stat-value" id="res-total-weeks">50</span>
           </div>
-        </div>
-
-        <!-- Step 3 -->
-        <div class="beergame-modal-step beergame-modal-step-3" style="display:none;">
-          <div class="beergame-modal-step-texto">
-            <strong>Retornar o sistema ao equilíbrio!</strong> 
-            <br><br>
-            Seu objetivo principal é gerenciar os pedidos de matéria-prima para que o estoque de produtos prontos se estabilize exatamente em 15 fornadas semana após semana, evitando falta de pães ou sobras desnecessárias. 
-            <br><br>
-            Você terá até <strong>50 semanas</strong> para atingir este objetivo. Esta tarefa exige atenção no tempo de entrega (Lead Time) dos pedidos!
+          <div class="stat-card">
+            <span class="stat-label">Média de Estoque</span>
+            <span class="stat-value" id="res-avg-stock">0.0</span>
           </div>
-          <div class="both"></div>
-          <div class="modal-nav-buttons">
-            <button class="beergame-modal-conteudo-btn -voltar" data-step="2">
-              <img src="assets/images/voltar.png" alt="Voltar">
-            </button>
-            <button class="beergame-modal-conteudo-btn -proximo" data-step="3">
-              <img src="assets/images/proximo.png" alt="Avançar">
-            </button>
+          <div class="stat-card">
+            <span class="stat-label">Total de Faltas (Atrasos)</span>
+            <span class="stat-value" id="res-total-backlog">0</span>
           </div>
         </div>
 
-        <!-- Step 4 -->
-        <div class="beergame-modal-step beergame-modal-step-4" style="display:none;">
-          <div class="beergame-modal-step-texto">
-            Ao final da 50ª semana, você <strong>receberá um relatório completo</strong> com seu desempenho financeiro e eficiência logística como gerente de suprimentos da padaria.
-            <br><br>
-            Use o tempo de atraso a seu favor e evite o Efeito Chicote!
-            <br><br>
-            <strong>Boa sorte!</strong>
-          </div>
-          <div class="both"></div>
-          <div class="modal-nav-buttons">
-            <button class="beergame-modal-conteudo-btn -voltar" data-step="3">
-              <img src="assets/images/voltar.png" alt="Voltar">
-            </button>
-            <button class="beergame-modal-conteudo-btn -comecar" id="btnFecharInstrucoes">
-              <img src="assets/images/comecar.png" alt="Começar">
-            </button>
-          </div>
+        <!-- Chart visualizer -->
+        <div class="chart-container">
+          <canvas id="resultsChart"></canvas>
+        </div>
+
+        <!-- Buttons -->
+        <div class="beergame-modal-botoes">
+          <button id="btnJogarNovamente" class="btn btn-primary">
+            Jogar Novamente
+          </button>
+          <button id="btnFecharResultados" class="btn btn-secondary">
+            Fechar
+          </button>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Game Over Modal -->
-  <div class="beergame-modal" id="game-over-modal">
-    <div class="beergame-modal-fim">
-      <div class="beergame-modal-ilustracao">
-        <!-- Bread game over banner / image -->
-        <div class="finish-banner">
-          <h2>Simulação Concluída!</h2>
-          <p>Veja seus resultados no gerenciamento da padaria</p>
+    <!-- Cookie Notice -->
+    <div class="cookies" id="cookie-notice">
+      <div class="content">
+        <div class="descricao">
+          Utilizamos cookies locais para salvar seu progresso no simulador de
+          padaria e melhorar sua experiência de navegação. Se tiver alguma
+          dúvida, consulte a nossa Política de Privacidade.
         </div>
-      </div>
-      
-      <!-- Statistics summary -->
-      <div class="results-summary">
-        <div class="stat-card">
-          <span class="stat-label">Custo Total Acumulado</span>
-          <span class="stat-value" id="res-total-cost">R$ 0.00</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-label">Semanas Simuladas</span>
-          <span class="stat-value">50</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-label">Média de Estoque</span>
-          <span class="stat-value" id="res-avg-stock">0.0</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-label">Total de Faltas (Atrasos)</span>
-          <span class="stat-value" id="res-total-backlog">0</span>
-        </div>
-      </div>
-
-      <!-- Chart visualizer -->
-      <div class="chart-container">
-        <canvas id="resultsChart"></canvas>
-      </div>
-
-      <!-- Buttons -->
-      <div class="beergame-modal-botoes">
-        <button id="btnJogarNovamente" class="btn btn-primary">Jogar Novamente</button>
-        <button id="btnFecharResultados" class="btn btn-secondary">Fechar</button>
+        <button class="btn-cookie" id="fecharAlertaCookies">Entendi</button>
+        <div class="both"></div>
       </div>
     </div>
-  </div>
 
-  <!-- Cookie Notice -->
-  <div class="cookies" id="cookie-notice">
-    <div class="content">
-      <div class="descricao">
-        Utilizamos cookies locais para salvar seu progresso no simulador de padaria e melhorar sua experiência de navegação. 
-        Se tiver alguma dúvida, consulte a nossa Política de Privacidade.
-      </div>
-      <button class="btn-cookie" id="fecharAlertaCookies">Entendi</button>
-      <div class="both"></div>
-    </div>
-  </div>
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="content footer-grid">
+        <!-- About -->
+        <div class="footer-empresa">
+          <h3 class="subtitulo">Gerenciamento de Padaria</h3>
+          <p class="descricao">
+            Simulador educacional de cadeia de suprimentos desenvolvido para
+            capacitar gestores, estudantes e entusiastas no controle de estoque,
+            compras e logística integrada de panificação.
+          </p>
+        </div>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="content footer-grid">
-      <!-- About -->
-      <div class="footer-empresa">
-        <h3 class="subtitulo">Gerenciamento de Padaria</h3>
-        <p class="descricao">
-          Simulador educacional de cadeia de suprimentos desenvolvido para capacitar gestores, estudantes e entusiastas no controle de estoque, compras e logística integrada de panificação.
-        </p>
+        <!-- Contact -->
+        <div class="footer-contato">
+          <h3 class="subtitulo">Contato</h3>
+          <p class="descricao">
+            Curitiba/PR - Brasil<br />
+            suporte@gerenciamentopadaria.com.br
+          </p>
+        </div>
       </div>
-      
-      <!-- Contact -->
-      <div class="footer-contato">
-        <h3 class="subtitulo">Contato</h3>
-        <p class="descricao">
-          Curitiba/PR - Brasil<br>
-          suporte@gerenciamentopadaria.com.br
-        </p>
+      <div class="barra-inferior">
+        <div class="content copyright-flex">
+          <div class="copyright">
+            Copyright &copy; 2026 - Todos os direitos reservados.
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="barra-inferior">
-      <div class="content copyright-flex">
-        <div class="copyright">Copyright &copy; 2026 - Todos os direitos reservados.</div>
-      </div>
-    </div>
-  </footer>
+    </footer>
 
-  <!-- Script logic -->
-  <script src="app.js"></script>
-</body>
+    <!-- Script logic -->
+    <script src="app.js"></script>
+  </body>
 </html>

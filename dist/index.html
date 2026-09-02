@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta name="theme-color" content="#d97706" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="#d97706" />
+    <meta name="author" content="Gerenciamento de Padaria" />
+
+    <title>Simulador de Cadeia de Suprimentos - Gerenciamento de Padaria</title>
+
+    <!-- SEO Meta -->
+    <meta
+      name="description"
+      content="Simule o gerenciamento de cadeia de suprimentos de uma padaria e aprenda a controlar o estoque e a demanda."
+    />
+
+    <!-- Fonts & Icons -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Chart.js for premium statistics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Style Sheets -->
+    <link rel="stylesheet" crossorigin href="/assets/index-gUAWY_OY.css">
+  </head>
+  <body class="beergame-play">
+    <!-- Header -->
+    <header class="header">
+      <div class="content header-flex">
+        <div class="logotipo">
+          <a href="#" title="Gerenciamento de Padaria">
+            <div class="logo-container">
+              <span class="logo-icon">🍞</span>
+              <span class="logo-text"
+                >Padaria <span class="logo-highlight">Simulação</span></span
+              >
+            </div>
+          </a>
+        </div>
+        <nav class="menu-principal">
+          <ul>
+            <li class="menu-principal-item">
+              <a href="#" id="menuHome">Início</a>
+            </li>
+            <li class="menu-principal-item">
+              <a href="#" id="menuRegras">Regras</a>
+            </li>
+            <li class="menu-principal-item">
+              <a href="#" id="menuNovoJogo">Novo Jogo</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Game Section -->
+    <main class="main-content">
+      <!-- Registration Screen -->
+      <section id="registration-screen" class="screen">
+        <div class="card registration-card">
+          <div class="card-header">
+            <h2>Bem-vindo ao Simulador de Padaria</h2>
+            <p>
+              Gerencie a cadeia de suprimentos e mantenha o estoque de pães em
+              perfeito equilíbrio.
+            </p>
+          </div>
+          <form id="start-game-form" class="form">
+            <div class="form-group">
+              <label for="player-name">Nome Completo</label>
+              <input
+                type="text"
+                id="player-name"
+                placeholder="Digite seu nome completo"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="player-nick">Apelido (exibido no painel)</label>
+              <input
+                type="text"
+                id="player-nick"
+                placeholder="Digite um apelido"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="player-email">E-mail</label>
+              <input
+                type="email"
+                id="player-email"
+                placeholder="Digite seu melhor e-mail"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="player-type">Qual seu perfil profissional?</label>
+              <select id="player-type" required>
+                <option value="" disabled selected>Selecione uma opção</option>
+                <option value="estudante">Estudante Acadêmico / Técnico</option>
+                <option value="profissional">
+                  Profissional de Logística / Operações
+                </option>
+                <option value="entusiasta">
+                  Entusiasta de Jogos de Gestão
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group checkbox-group">
+              <label>
+                <input type="checkbox" id="accept-ranking" checked />
+                Aceito participar do ranking local de gestores.
+              </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">
+              Começar Simulação
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- Game Play Board Screen -->
+      <section id="game-screen" class="screen hide">
+        <div class="content">
+          <div class="beergame-game-play-topo">
+            <div class="nome-jogador">
+              Olá, <span id="display-player-nick">Jogador</span>!
+            </div>
+
+            <div class="btn-regras">
+              <button
+                id="btnRegras"
+                class="beergame-modal-regras"
+                title="Ver Regras"
+              >
+                <img src="data:image/png;base64,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" alt="Regras" />
+              </button>
+            </div>
+            <div class="both"></div>
+          </div>
+
+          <div class="board-outer-container">
+            <div class="board-container">
+              <!-- Game Board with absolute coordinate positioning -->
+              <div class="beergame-game-play-tabuleiro">
+                <!-- Weeks visualizer -->
+                <div
+                  class="beergame-game-play-tabuleiro-input-semanas"
+                  id="val-semana"
+                >
+                  01
+                </div>
+
+                <!-- Input order and submit button -->
+                <div class="beergame-play-tour">
+                  <input
+                    type="number"
+                    min="0"
+                    max="99"
+                    id="quantidade-pedido"
+                    value=""
+                    placeholder="0"
+                    class="beergame-game-play-tabuleiro-input-pedido"
+                  />
+
+                  <button
+                    type="button"
+                    class="btn-enviar-pedido"
+                    id="btnEnviarPedido"
+                  >
+                    <img
+                      src="data:image/png;base64,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"
+                      alt="Enviar"
+                      class="btn-enviar-pedido-active"
+                    />
+                  </button>
+                </div>
+
+                <!-- Game State Fields (placed over layout background coordinates) -->
+                <div
+                  class="beergame-game-play-tabuleiro-input-casa"
+                  data-casa="transito"
+                  id="val-transito"
+                >
+                  10
+                </div>
+                <div
+                  class="beergame-game-play-tabuleiro-input-casa"
+                  data-casa="processo"
+                  id="val-processo"
+                >
+                  10
+                </div>
+                <div
+                  class="beergame-game-play-tabuleiro-input-casa"
+                  data-casa="estoque"
+                  id="val-estoque"
+                >
+                  10
+                </div>
+                <div
+                  class="beergame-game-play-tabuleiro-input-casa"
+                  data-casa="nao-atendidos"
+                  id="val-nao-atendidos"
+                >
+                  0
+                </div>
+                <div
+                  class="beergame-game-play-tabuleiro-input-casa"
+                  data-casa="consumidores"
+                  id="val-consumidores"
+                >
+                  10
+                </div>
+
+                <!-- Mercado / Demand Sum Fields at the bottom -->
+                <div
+                  class="beergame-game-play-tabuleiro-input-casa"
+                  data-casa="demanda"
+                  id="val-demanda"
+                >
+                  10
+                </div>
+                <div
+                  class="beergame-game-play-tabuleiro-input-casa"
+                  data-casa="backorders"
+                  id="val-backorders"
+                >
+                  0
+                </div>
+                <div
+                  class="beergame-game-play-tabuleiro-input-casa"
+                  data-casa="total"
+                  id="val-total"
+                >
+                  10
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Restart action -->
+          <div class="beergame-game-play-acao">
+            <button id="btnResetarJogo" class="btn btn-secondary">
+              Reiniciar Simulação
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Instructions Modal (Slider Steps 1-4) -->
+    <div class="beergame-modal" id="instructions-modal">
+      <div class="beergame-modal-conteudo">
+        <div class="beergame-modal-conteudo-titulo">
+          <img
+            src="/assets/instrucoes-B0-nQDD7.png"
+            class="beergame-modal-step beergame-modal-step-1"
+            alt="Instruções"
+          />
+          <img
+            src="/assets/como_jogar-CxdqMsa9.png"
+            class="beergame-modal-step beergame-modal-step-2"
+            alt="Como Jogar"
+            style="display: none"
+          />
+          <img
+            src="/assets/seu_objetivo-CsjBtpYh.png"
+            class="beergame-modal-step beergame-modal-step-3"
+            alt="Seu Objetivo"
+            style="display: none"
+          />
+          <img
+            src="/assets/resultado-CvH2rI_r.png"
+            class="beergame-modal-step beergame-modal-step-4"
+            alt="Resultado"
+            style="display: none"
+          />
+        </div>
+
+        <div class="beergame-modal-conteudo-texto">
+          <!-- Step 1 -->
+          <div class="beergame-modal-step beergame-modal-step-1">
+            <div class="beergame-modal-step-texto">
+              O jogo <strong>inicia-se em equilíbrio</strong>. Os consumidores
+              <strong>estão pedindo 10 fornadas de pão</strong> e
+              <strong>você tem 10 fornadas</strong> em estoque de produtos
+              prontos a cada semana. <br /><br />
+              O jogo é simples: na segunda semana, seus consumidores
+              <strong>aumentarão seus pedidos de 10 para 15 fornadas</strong>
+              devido a uma campanha promocional feita pela padaria. Este valor
+              de demanda ficará fixo para as semanas seguintes. O seu papel será
+              realizar os pedidos de farinha para abastecer a produção.
+              <br /><br />
+              <strong>Custo de Manutenção do Estoque:</strong> R$ 1,00 por
+              fornada/semana.<br />
+              <strong>Custo de Falta de Estoque (Atrasos):</strong> R$ 1,50 por
+              fornada/semana.
+            </div>
+            <div class="both"></div>
+            <div class="modal-nav-buttons">
+              <button
+                class="beergame-modal-conteudo-btn -proximo"
+                data-step="1"
+              >
+                <img src="data:image/png;base64,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" alt="Avançar" />
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div
+            class="beergame-modal-step beergame-modal-step-2"
+            style="display: none"
+          >
+            <div class="beergame-modal-step-texto">
+              Esta é uma versão do simulador com apenas
+              <strong>dois elos</strong> da cadeia de suprimentos da padaria: a
+              <strong>Produção / Forno</strong> e a
+              <strong>Frente de Caixa (Varejo)</strong>. <br /><br />
+              Você tem a informação perfeita sobre a demanda do consumidor. Você
+              sabe com certeza que ela
+              <strong
+                >irá crescer na segunda semana da simulação para 15
+                fornadas</strong
+              >
+              (aumento de 50%) devido a investimentos locais em marketing. A
+              demanda ficará constante para as próximas semanas até o final do
+              jogo.
+            </div>
+            <div class="both"></div>
+            <div class="modal-nav-buttons">
+              <button class="beergame-modal-conteudo-btn -voltar" data-step="1">
+                <img src="data:image/png;base64,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" alt="Voltar" />
+              </button>
+              <button
+                class="beergame-modal-conteudo-btn -proximo"
+                data-step="2"
+              >
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATwAAABUCAYAAAAf1YuFAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAADhJJREFUeNrsnUtsVccZx8fGNwa/MOYRTEXiRIAapVVJHLVJKmGqEqlSWUBXdNGEqO6i2bTeJJuSlJIVXZgsmiwSiaTpgq7KItlZCkZqlFbCELVVIqBglMbEPP3GxkA6/+M7ZBjm8Z3r57X/P+lcw73nzJkz58z/fN8335lToaR0dO3Sn2162a6XrYoQQuaXY3o5pZf3VOeOU5INKgRCt1d/vqaXFrYvIWSB0quX/Vr43i1N8Dq6YMkdptARQsrM6usIWXyVAbH7rf78iGJHCCkztmfaNeWZCiy8ji5YdXtDpdU31anltdWqWi/LqpaxeQkhc8rk+KSanJhUw9dG1PjoRGzVF10Xt8Jj2XX6tly7cbVa1bxKi1wlW5wQsjDETwvf5S+uqsFLQ6FVdmvRO3q/4E3F7D5y14Y117xpffaXEEIWImNDN9T/Pv9S3b51x/1pQC9PaNHrxX9sc+2wT+weenwjxY4QsqCpaViRaZXHA220ta3ScmVb7LWwYaAAQghZcBgDzcP2ogd718L7jbvGgy3rKHaEkLITPYw3eEAusaooPkHxN/uXQnVBbWp9hK1HCCk7EMf7b885XzzvEZhwbe63TRsa2WqEkLIEnmldU53vp12VaipR7x5qGmrYaoSQsqXWr2FtELytPj+YEELKlcLygu/rRo5KEEIWHUhT8bCdgkcIWTJQ8AghFDxCCKHgEUIIBY8QQih4hBBCwSOEkLmkik1ADD/91gq1p6VWbamfuiyGb32teq7dVEd6R7O/hNDCI4uGLQ2Fu2IH6qsqVNu6avXW95tU8wpO508oeGQRid2TTQ94f4OlN6IXQujSkrIHQnfwyVWZRecTu5f+eU0NT95hQxEKHil/frWpzit2H355Q3V+PkyxIxQ8snh4++xIJnrg4o3b6vTwLdXdP579mxAKHllUYAT219ptJYSCR4Ig0F+nXcH6QuU9o5t92jI6o62k00OT0e0x8mmPfrqpHyh3c7HcVmtAQVq+FFOPVmfQ4oSuD/ZTiktrykQb+dxlWJGZNWkdg1nfbku7LrHUGGyXbe9s69uP275uHbEN9pX3uBEL9ZWFfee1llEWjmeDdX3M9Hmn4JG7He/V764MjlpKwUUOdxGxMLdzHnyicdqpHhhQ+GvvqDpyYSx350RnR94dFp/AgHar0yIXzz0OX7vBNd724HKvyPlA3Ts/G8pSX2Lt3V483l/8/cpd8WjT+0H9kTojaSvsB8eA9u/4dn10f+6+UseNQZ9QOwLs9w//GkyK3E59PKn2Q92O949n1xbDDvlYpp55/vful4G3/iwZft5Sm3Wk6QJRQafE8p/BSXV1YkqUXnl8pfpOY2Ha5VdXVmSd5Lnm5arn+jflp4AoHdjamAnF6up0ZhLW8R2Hy19+uCarD+olBe0Aa8rEEFPHO1JMhoZoQSRbaqvkbbW6Wv353GjW/s+sqU6uj32kRB689YPVUbEzNznU2ydQ+O317zVmbYB/p9rP1A1J4hUez4BMceWLq/d9xzw8D92XJmb0zonO8KbunBBANQsXKCwMu/yYAEMk2gOjspLjeP/Z1cGbQV0h/+UEQTlTdDslnCi2HSza4Zy5gWYf0n1BvFNWfsxCdq0y336x/ZsJ6zYGzuX7+kZTX2BXpoVXIrBg4GqhIz69tjp6x8V6fzo9nIlYc01V0GJCGfgNYvrvgclsfVhMsbLhSv7u0wF1XG/zcF1V1Bqzyw+JHTrWTFiWqPfFYjzJ5sLo7ax8aeeDCPzyk6vq5p2v1Yd94+r5R2u9IoXUGLTzIf33wujUPmHpfXLlpt7fAyIr9R3t/qEtwSdXpm5osPhS1hRiaDEr74/IX0wcL84jchldwYPYIXSSxyIOWeC4Tru+Gs/aktDCK83S6x9PujRYB+KF9RDziVlvuMBN3A7rIf4W43ixbOzj5Z7rIoskxD7dsWKWCPYDUZBan+iocKvcttjVfTkb8T3tiKFXhKsq7tbZV/esTT++mv31DSIgeP+SYHTZxFLdshHTm46VZ5/PlNi6Yoe2QxvGbgYQ+Sw+K7BkcW73RcojFDwRIzkHA3CBSkXpRA7X1uTHpVzbUMeMBfbR+SFSEAX8TQXXbRENiecBXYako5rBIbcsHCvqkRqMwe8pkQ65sGcEogxC8UVJ3DEUwsCgVUzsIOQQZCy79U1EcgPBOYb1TSh4c2oVplwkKa4gjpT4xEOqY8JldAXwHcciClkVoXgerK8DAuGESCOuaMcUTYfPczPIKzimjhJ8Vp7UujOinGdbtL9dN2yfPd4nuIFg9JlQ8BYFqUEBX/wOd/xY5wrlm0lTHmJiCvGXCKdL3md35yI1wz1OqXXns8wwupr3pon2kLjgONczkWFAwSMiUnf9vhI7Zygh17UMfG5OqbwtECuTLBwrI8+oNNzYhZhYa1t5eaw71yr3JUdLwfmViDvdWgrenLEzcXfN0/lbi50MFkEs5mM6g88y2NxQKNlqPB4Y8c0rqi+fHBBbYQs5p6zjsYZMTPC3VLY0pEfJY6O+3YJzMp2bHAWPiC5gXKQQpvaIqxNKPA2BshDfQlwmZFEgrgO3MTTQkEyIjfwON0rSwVKiinIgehIOCtI85u1c67bCjaeUHEbp+UitI0mElgorBY/kv+trMfrHT9arrh+viwaMIUzS0c88+FIuSnHXQpwRuJcSAYCbKjl+dPalHniPnQ+pu19XVcHOScGbH8yo42wE1yEQR9vWTituE9v2xAy6mLBOJCON5hnf+SAbxJnn2Z0heDErl4+SUfAWLOjkWR5VCYF4466mLvDs4XXtavlEQhTkjsR8JLlqUoFAzp3UHfQlNs9WOMIGVqhkNNQIT95ptaSDVtsi50SSk8cp+f1wtpRpghgXRuLsGNtMTaKJJzGMu4o0iPZEKgREwo0Toh6pEUX8DqvCJ6yS9BCJxbGnhAkZIOJ40mK2Zlz2uX1oOwzWQMRT4gxxzHt+pcnOGPwKxetS+ZioO6eQouDNCnP1CkM8wdEuyP1CR7FjehBdyagdtiv1OFLbQejcuJxEUIzlOteTk0JgcbOJtbc0RcQd0DFz46VuQmY+vFJumHR56dKWPZJHqExHsTHWSops1g+Pi5fqmKhTzJrI5p5z0jhMTFOSlIzjSSX5pupYyiwuHyRGQ6UDRaF3hUgIpb+kjvdI4hltCh6ZF1pzTgkkSRFxBc9YKxLwPKsbLE89FRDr+CjLl8aBGBlEEttK4lGwtGIjlykBCKV5xAYGYFmFhClvepHPWpfchGCZu2EAHOu2yCBTT2JmaAoemRbTCaynOqrrDkkvZLdO6GASYbHnu4PAICa45+GaaMcN1clMR+Ueo5lZxhY/CdmMwiW2dcjCS+XEhaw8W+QlT1y49ZY+JgZwDswECzgv7nPHruU8G6lPFLwlgpkGPeUKlpIoi06wLZFKgg5ply19N4JbZ3Qw6ewlZnp7dKzYsUNAQ50Wxwax8wmKaxFmLrFwKimIMSa7tNNoYi8Qt9vR5xb7xMp9x4gr6OZ9FyGLWmJ1G7dW6toaocN5iQnsgRIGUZYanAA0cpEdeqopObkkfs87xTrKfuOpVcmJHyF2ux+qySa6NGVjktHUJJ74HYMQEDgzKojtUc5zzSumPeEkXOtXTg7cM9kkOiKmeEfc6Wcba4LtBoGyJ6pEW2B9Kaa9EZt8ek21en1ro+h4IDoIIUBk0K4vPFrrddcxKSgmGbVnR7YfF8Rkr6ZNs8EYfbyp/WM6eewTE4+67bgh8SyyBJznfZ8OJmfqWWpwAtAc5MkZQ2fP83TAzhzpGaiDXTYC/VJLzd0PLMTUJKWpjoWppDAZqZsqslP4QL07pdSr05i0Ms85si0txCpDI7CoH6wpI0K2lWfH9cwEntL9IzTgs/SyvD+87LzEvDnUDeeUYkeXdlqkJvJ0hSDP+nkvcFug8rinvjqh0yLNA4tU+LANhBYJ1KERwG7haLARXtu1K+XcoIw829rxrZTbh3VtQTduuD1vIMrIcw7hCody8NCmaFvpzcy0tzmPdGPlaPOh674WfuzZLWyZopVk5pPzxaNM/KmUd5jCxUE2/YZi0q9PZLDgwvalfZhXIm52po3KOpZe/4PitOiSYzTvU7XLSe0/1l4ox7X2zPthfcnYZptQPCxzzXUd8JSCO0JqXNXNnvffYp9I0vWdI1iZrcVcN/uYsW72CJzgfKbOoR3zy2OBhY4J5fSZxOhZSsZeTHz28WkKHiFk6QoeXVpCyJKBgkcIoeARQggFjxBCKHiEEELBI4QQCh4hhFDwCCGEgkcIIRQ8Qgih4BFCCAWPEELBI4QQCh4hhFDwCCGEgkcIIfPC+Kj3laa9ELwB99vbtzibKiGkfLlz+05Q8I65344NjbHFCCFly9igV8NOQfC63W+Hr42wxQghZUtAw7oheEfdbwcvDanJiUm2GiGk/Ky7oRu+GN6A6txxtFJ/9Or/vOv+2n/+MluOEFJ29J+/5Pv6DXyYUdr9PpPw2sXrbD1CSNnQd/Yrv3Wn1KFvBG/Kyjvks/Lg3hJCSDmIXUCv9muNy7JR7n1zcUfXSf251V27vqlONW9ar5ZVMW2PELKwwHhD39n+0MjsUS12u81/qpwff6SX83ppdN3bsZ5zqk4LX+O6laqmYQVbmRAyr0CXsES80FN6edH+ouK+VTq6YOEd9ll6NoXqgiosL7DVCSFzysTouOThiFOZAVd0ZcOCNyV6jUXR28XmJYSUGYe00HX4fqiIbtbRtVd/vqaXFrYhIWSB05u5sJ07joVWqBAVMyV8L+hlO9uUELLAwMMT7yGxOLXi/wUYAEUKJIvH7ijNAAAAAElFTkSuQmCC" alt="Avançar" />
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div
+            class="beergame-modal-step beergame-modal-step-3"
+            style="display: none"
+          >
+            <div class="beergame-modal-step-texto">
+              <strong>Retornar o sistema ao equilíbrio!</strong>
+              <br /><br />
+              Seu objetivo principal é gerenciar os pedidos de matéria-prima
+              para que o estoque de produtos prontos se estabilize exatamente em
+              15 fornadas semana após semana, evitando falta de pães ou sobras
+              desnecessárias.
+              <br /><br />
+              Você terá até <strong>50 semanas</strong> para atingir este
+              objetivo. Esta tarefa exige atenção no tempo de entrega (Lead
+              Time) dos pedidos!
+            </div>
+            <div class="both"></div>
+            <div class="modal-nav-buttons">
+              <button class="beergame-modal-conteudo-btn -voltar" data-step="2">
+                <img src="data:image/png;base64,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" alt="Voltar" />
+              </button>
+              <button
+                class="beergame-modal-conteudo-btn -proximo"
+                data-step="3"
+              >
+                <img src="data:image/png;base64,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" alt="Avançar" />
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div
+            class="beergame-modal-step beergame-modal-step-4"
+            style="display: none"
+          >
+            <div class="beergame-modal-step-texto">
+              Ao final da 50ª semana, você
+              <strong>receberá um relatório completo</strong> com seu desempenho
+              financeiro e eficiência logística como gerente de suprimentos da
+              padaria. <br /><br />
+              Use o tempo de atraso a seu favor e evite o Efeito Chicote!
+              <br /><br />
+              <strong>Boa sorte!</strong>
+            </div>
+            <div class="both"></div>
+            <div class="modal-nav-buttons">
+              <button class="beergame-modal-conteudo-btn -voltar" data-step="3">
+                <img src="data:image/png;base64,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" alt="Voltar" />
+              </button>
+              <button
+                class="beergame-modal-conteudo-btn -comecar"
+                id="btnFecharInstrucoes"
+              >
+                <img src="data:image/png;base64,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" alt="Começar" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Game Over Modal -->
+    <div class="beergame-modal" id="game-over-modal">
+      <div class="beergame-modal-fim">
+        <div class="beergame-modal-ilustracao">
+          <!-- Bread game over banner / image -->
+          <div class="finish-banner">
+            <h2>Simulação Concluída!</h2>
+            <p>Veja seus resultados no gerenciamento da padaria</p>
+          </div>
+        </div>
+
+        <!-- Statistics summary -->
+        <div class="results-summary">
+          <div class="stat-card">
+            <span class="stat-label">Custo Total Acumulado</span>
+            <span class="stat-value" id="res-total-cost">R$ 0.00</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Semanas Simuladas</span>
+            <span class="stat-value">50</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Média de Estoque</span>
+            <span class="stat-value" id="res-avg-stock">0.0</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Total de Faltas (Atrasos)</span>
+            <span class="stat-value" id="res-total-backlog">0</span>
+          </div>
+        </div>
+
+        <!-- Chart visualizer -->
+        <div class="chart-container">
+          <canvas id="resultsChart"></canvas>
+        </div>
+
+        <!-- Buttons -->
+        <div class="beergame-modal-botoes">
+          <button id="btnJogarNovamente" class="btn btn-primary">
+            Jogar Novamente
+          </button>
+          <button id="btnFecharResultados" class="btn btn-secondary">
+            Fechar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cookie Notice -->
+    <div class="cookies" id="cookie-notice">
+      <div class="content">
+        <div class="descricao">
+          Utilizamos cookies locais para salvar seu progresso no simulador de
+          padaria e melhorar sua experiência de navegação. Se tiver alguma
+          dúvida, consulte a nossa Política de Privacidade.
+        </div>
+        <button class="btn-cookie" id="fecharAlertaCookies">Entendi</button>
+        <div class="both"></div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="content footer-grid">
+        <!-- About -->
+        <div class="footer-empresa">
+          <h3 class="subtitulo">Gerenciamento de Padaria</h3>
+          <p class="descricao">
+            Simulador educacional de cadeia de suprimentos desenvolvido para
+            capacitar gestores, estudantes e entusiastas no controle de estoque,
+            compras e logística integrada de panificação.
+          </p>
+        </div>
+
+        <!-- Contact -->
+        <div class="footer-contato">
+          <h3 class="subtitulo">Contato</h3>
+          <p class="descricao">
+            Curitiba/PR - Brasil<br />
+            suporte@gerenciamentopadaria.com.br
+          </p>
+        </div>
+      </div>
+      <div class="barra-inferior">
+        <div class="content copyright-flex">
+          <div class="copyright">
+            Copyright &copy; 2026 - Todos os direitos reservados.
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Script logic -->
+    <script src="app.js"></script>
+  </body>
+</html>

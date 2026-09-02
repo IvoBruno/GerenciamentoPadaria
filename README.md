@@ -77,32 +77,32 @@ A cada rodada, ao digitar um pedido e clicar em enviar, a classe `BakeryGame` (l
 
 ```mermaid
 flowchart TD
-    Start([Novo Turno: Envio do Pedido]) --> GetDemand[1. Determinar Demanda da Semana]
-    GetDemand --> ReceiveStock[2. Adicionar Produção 'Processo' ao 'Estoque']
-    ReceiveStock --> MoveTransit[3. Mover 'Trânsito' para 'Processo']
-    MoveTransit --> CalcDemand[4. Calcular Demanda Total: Demanda Atual + Backlog Acumulado]
-    CalcDemand --> Fulfill[5. Atender Demanda a partir do Estoque]
-    Fulfill --> CalcCosts[6. Calcular Custos: Estoque x R$ 1.00 + Backlog x R$ 1.50]
-    CalcCosts --> PlaceOrder[7. Receber Novo Pedido e posicionar em 'Trânsito']
-    PlaceOrder --> AdvanceWeek[8. Incrementar Semana]
-    AdvanceWeek --> CheckEnd{Semana > 50?}
+    Start([Novo Turno: Envio do Pedido]) --> AdvanceWeek[1. Incrementar Semana]
+    AdvanceWeek --> GetDemand[2. Determinar Demanda da Nova Semana]
+    GetDemand --> CalcDemand[3. Calcular Demanda Total: Demanda + Backlog]
+    CalcDemand --> Fulfill[4. Atender Demanda a partir do Estoque em Mãos]
+    Fulfill --> ReceiveStock[5. Adicionar Produção 'Processo' ao 'Estoque']
+    ReceiveStock --> MoveTransit[6. Mover 'Trânsito' para 'Processo']
+    MoveTransit --> PlaceOrder[7. Receber Novo Pedido e posicionar em 'Trânsito']
+    PlaceOrder --> CalcCosts[8. Calcular Custos: Estoque x R$ 1.00 + Backlog x R$ 1.50]
+    CalcCosts --> CheckEnd{Semana >= 50?}
     CheckEnd -->|Não| Ready([Aguardar Próximo Turno])
     CheckEnd -->|Sim| GameOver([Fim de Jogo: Exibir Gráficos e Estatísticas])
 ```
 
-1. **Determinação de Demanda:** Retorna `10` se for a semana 1, ou `15` para qualquer semana posterior.
-2. **Entrada de Estoque:** O estoque atual é incrementado com a quantidade que estava na casa de produção/forno (`processo`).
-3. **Movimentação Interna da Cadeia:** O lote que estava a caminho (`transito`) avança para a etapa de forno (`processo`).
-4. **Cálculo da Demanda Total:** Soma-se a demanda da semana atual com quaisquer pedidos que ficaram pendentes e não foram atendidos em semanas passadas (`backorders`).
-5. **Atendimento de Pedidos:**
-   - Se o estoque for suficiente, toda a demanda total é atendida. O estoque é reduzido, e a taxa de pedidos não atendidos nesta rodada vai para `0`.
-   - Se o estoque for insuficiente, o estoque é zerado, atende-se o máximo possível, e a diferença não atendida se torna o novo saldo de `backorders` (backlog acumulado).
-6. **Contabilidade de Custos:**
+1. **Avanço da Semana:** O contador de semanas avança para a nova rodada (`this.week++`).
+2. **Determinação de Demanda:** Avalia a demanda da nova semana ativa (Semana 1 = `10`; Semana 2 em diante = `15`).
+3. **Cálculo da Demanda Total:** Soma-se a demanda da rodada com pedidos não atendidos acumulados (`totalDemand = demanda + backorders`).
+4. **Atendimento de Pedidos:** A demanda é atendida a partir do estoque existente em mãos antes da entrada da nova remessa de produção:
+   - Se o estoque for suficiente, toda a demanda é atendida.
+   - Se o estoque for insuficiente (como na Semana 2: demanda 15 para estoque 10), atende-se o estoque disponível (10) e a diferença gera **Novos Pedidos Não Atendidos (5)** e **Backorders (5)**.
+5. **Entrada de Estoque:** O estoque é reabastecido com a produção finalizada que estava no forno (`estoque += processo`).
+6. **Movimentação Interna da Cadeia:** O lote em trânsito avança para a etapa de forno (`processo = transito`).
+7. **Processamento do Novo Pedido:** A quantidade solicitada pelo gestor entra em trânsito (`transito = pedido`).
+8. **Contabilidade de Custos:**
    - Custo de estoque da semana = `estoque * R$ 1.00`.
    - Custo de falta da semana = `backorders * R$ 1.50`.
-   - O custo total acumulado é acrescido da soma destes dois fatores.
-7. **Processamento do Novo Pedido:** A quantidade inserida pelo usuário é colocada na casa de `transito` para iniciar a jornada de 2 semanas de lead time.
-8. **Avanço de Turno:** O contador de semanas é incrementado. Caso ultrapasse 50, o jogo entra em estado final (`gameOver = true`).
+   - O custo total acumulado é acrescido da soma destes dois fatores. Caso a semana atinja 50, a simulação se encerra (`gameOver = true`).
 
 ---
 
@@ -112,19 +112,19 @@ O simulador utiliza um tabuleiro visual baseado em uma imagem de alta resoluçã
 
 ### Coordenadas do Tabuleiro (Largura Base: 1100px, Altura: 600px):
 
-| Campo do Tabuleiro      | Atributo Data/ID              | Posição no CSS (Top / Left) |
-| :---------------------- | :---------------------------- | :-------------------------- |
-| **Semanas**             | `#val-semana`                 | `top: 19px; left: 46px;`    |
-| **Entrada do Pedido**   | `#quantidade-pedido`          | `top: 185px; left: 195px;`  |
-| **Botão de Enviar**     | `#btnEnviarPedido`            | `top: 225px; left: 195px;`  |
-| **Em Trânsito**         | `[data-casa="transito"]`      | `top: 160px; left: 345px;`  |
-| **Em Processo**         | `[data-casa="processo"]`      | `top: 200px; left: 510px;`  |
-| **Estoque**             | `[data-casa="estoque"]`       | `top: 275px; left: 665px;`  |
-| **Não Atendidos**       | `[data-casa="nao-atendidos"]` | `top: 305px; left: 840px;`  |
-| **Consumidores**        | `[data-casa="consumidores"]`  | `top: 200px; left: 975px;`  |
-| **Demanda**             | `[data-casa="demanda"]`       | `top: 475px; left: 410px;`  |
-| **Atrasos (Backorder)** | `[data-casa="backorders"]`    | `top: 475px; left: 595px;`  |
-| **Custo Total**         | `[data-casa="total"]`         | `top: 475px; left: 740px;`  |
+| Campo do Tabuleiro                    | Atributo Data/ID              | Posição no CSS (Top / Left) |
+| :------------------------------------ | :---------------------------- | :-------------------------- |
+| **Semanas**                           | `#val-semana`                 | `top: 19px; left: 46px;`    |
+| **Entrada do Pedido**                 | `#quantidade-pedido`          | `top: 185px; left: 195px;`  |
+| **Botão de Enviar**                   | `#btnEnviarPedido`            | `top: 225px; left: 195px;`  |
+| **Em Trânsito**                       | `[data-casa="transito"]`      | `top: 160px; left: 345px;`  |
+| **Em Processo**                       | `[data-casa="processo"]`      | `top: 200px; left: 510px;`  |
+| **Estoque**                           | `[data-casa="estoque"]`       | `top: 275px; left: 665px;`  |
+| **Não Atendidos**                     | `[data-casa="nao-atendidos"]` | `top: 305px; left: 840px;`  |
+| **Consumidores**                      | `[data-casa="consumidores"]`  | `top: 200px; left: 975px;`  |
+| **Demanda**                           | `[data-casa="demanda"]`       | `top: 475px; left: 410px;`  |
+| **Atrasos (Backorder)**               | `[data-casa="backorders"]`    | `top: 475px; left: 595px;`  |
+| **Total de Pedidos dos Consumidores** | `[data-casa="total"]`         | `top: 475px; left: 740px;`  |
 
 ### Mecanismo de Escala Responsiva (CSS Scale):
 
