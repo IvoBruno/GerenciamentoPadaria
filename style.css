@@ -367,8 +367,8 @@ body {
 .beergame-game-play-tabuleiro-input-pedido {
   width: 70px !important;
   height: 38px !important;
-  top: 185px;
-  left: 195px;
+  top: 260px;
+  left: 140px;
   background: white;
   border: 2px solid var(--primary-color);
   border-radius: 6px;
@@ -382,8 +382,8 @@ body {
 
 /* Submit order button positioning */
 .beergame-play .btn-enviar-pedido {
-  top: 225px;
-  left: 195px;
+  top: 300px;
+  left: 140px;
   width: 74px;
   height: auto;
   position: absolute;
@@ -413,44 +413,44 @@ body {
 
 /* Coordinates for standard board values */
 .beergame-game-play-tabuleiro-input-casa[data-casa="transito"] {
-  top: 160px;
-  left: 345px;
+  top: 135px;
+  left: 235px;
 }
 
 .beergame-game-play-tabuleiro-input-casa[data-casa="processo"] {
-  top: 200px;
-  left: 510px;
+  top: 70px;
+  left: 420px;
 }
 
 .beergame-game-play-tabuleiro-input-casa[data-casa="estoque"] {
-  top: 275px;
-  left: 665px;
+  top: 70px;
+  left: 615px;
 }
 
 .beergame-game-play-tabuleiro-input-casa[data-casa="nao-atendidos"] {
-  top: 305px;
-  left: 840px;
+  top: 120px;
+  left: 785px;
 }
 
 .beergame-game-play-tabuleiro-input-casa[data-casa="consumidores"] {
-  top: 200px;
-  left: 975px;
+  top: 205px;
+  left: 905px;
 }
 
 /* Bottom mercado coordinates (Demanda + Backorders = Total Pedidos) */
 .beergame-game-play-tabuleiro-input-casa[data-casa="demanda"] {
-  top: 473px;
-  left: 410px;
+  top: 330px;
+  left: 400px;
 }
 
 .beergame-game-play-tabuleiro-input-casa[data-casa="backorders"] {
-  top: 473px;
-  left: 595px;
+  top: 330px;
+  left: 535px;
 }
 
 .beergame-game-play-tabuleiro-input-casa[data-casa="total"] {
-  top: 473px;
-  left: 763px;
+  top: 330px;
+  left: 660px;
 }
 
 .beergame-game-play-acao {

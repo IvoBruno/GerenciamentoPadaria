@@ -8,13 +8,12 @@ class BakeryGame {
 
   reset() {
     this.week = 1;
-    this.maxWeeks = 50;
+    this.maxWeeks = 56;
 
     // Initial State (Equilibrium)
     this.estoque = 10;
     this.processo = 10; // Arriving next week
     this.transito = 10; // Arriving in 2 weeks
-
     this.backorders = 0; // Cumulative backlog
     this.totalCost = 0;
 
