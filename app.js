@@ -3,12 +3,19 @@
 // Game State Class
 class BakeryGame {
   constructor() {
+    // Parâmetros econômicos e unitários
+    this.precoVenda = 10.0; // R$ por fornada entregue
+    this.custoUnitarioMP = 4.0; // R$ por fornada de matéria-prima encomendada
+    this.custoEstocagem = 1.0; // R$ por fornada em estoque / semana
+    this.custoFalta = 1.5; // R$ por fornada em atraso / semana (perdas)
+    this.despesaFixaSemanal = 30.0; // R$ de despesa fixa por semana
+
     this.reset();
   }
 
   reset() {
     this.week = 1;
-    this.maxWeeks = 56;
+    this.maxWeeks = 50;
 
     // Initial State (Equilibrium)
     this.estoque = 10;
@@ -21,6 +28,21 @@ class BakeryGame {
     this.lastDemanda = 10;
     this.lastNaoAtendidos = 0;
     this.lastConsumidores = 10; // Fulfilled
+
+    // Métricas financeiras da Semana 1 (equilíbrio inicial)
+    this.lastReceita = 100.0; // 10 * 10
+    this.lastCustoMP = 40.0; // 10 * 4
+    this.lastEstocagem = 10.0; // 10 * 1
+    this.lastPerdas = 0.0; // 0 * 1.5
+    this.lastDespesasFixas = 30.0;
+
+    // Totais acumulados
+    this.totalReceita = 100.0;
+    this.totalCustoMP = 40.0;
+    this.totalEstocagem = 10.0;
+    this.totalPerdas = 0.0;
+    this.totalDespesasFixas = 30.0;
+    this.lucroAcumulado = 20.0; // 100 - (40 + 10 + 0 + 30)
 
     this.gameOver = false;
     this.stableWeeks = 0;
@@ -40,6 +62,12 @@ class BakeryGame {
         consumidores: 10,
         pedido: 10,
         stableWeeks: 0,
+        receita: 100.0,
+        custoMP: 40.0,
+        despesaEstocagem: 10.0,
+        perdas: 0.0,
+        despesasFixas: 30.0,
+        lucroAcumulado: 20.0,
       },
     ];
   }
@@ -52,12 +80,12 @@ class BakeryGame {
     if (this.gameOver) return this.getState();
     if (pedido < 0) pedido = 0;
 
-    // 1. Determinar demanda da nova semana (Semana 1 = 10, Semana 2+ = 15)
+    // 1. Avançar semana
+    this.week++;
+
+    // 2. Determinar demanda da nova semana (Semana 1 = 10, Semana 2+ = 15)
     const demanda = this.getDemand(this.week);
     this.lastDemanda = demanda;
-
-    // 2. Avançar semana
-    this.week++;
 
     // 3. Calcular demanda total a ser atendida (demanda da nova semana + backorders anteriores)
     let totalDemand = demanda + this.backorders;
@@ -87,12 +115,32 @@ class BakeryGame {
     // 7. Efetuar novo pedido de matéria-prima (entra em trânsito)
     this.transito = pedido;
 
-    // 8. Calcular custos da semana
-    // Custo de manutenção de estoque: R$ 1.00 / unidade
-    // Custo de falta / atraso (backorders): R$ 1.50 / unidade
-    const custoEstoque = this.estoque * 1.0;
-    const custoFalta = this.backorders * 1.5;
-    this.totalCost += custoEstoque + custoFalta;
+    // 8. Cálculos Financeiros da Semana
+    const receita = atendidos * this.precoVenda;
+    const custoMP = pedido * this.custoUnitarioMP;
+    const despesaEstocagem = this.estoque * this.custoEstocagem;
+    const perdas = this.backorders * this.custoFalta;
+    const despesasFixas = this.despesaFixaSemanal;
+
+    // Lucro da semana (utilizado estritamente para compor o Lucro Acumulado)
+    const lucroSemana =
+      receita - (custoMP + despesaEstocagem + perdas + despesasFixas);
+
+    this.lucroAcumulado += lucroSemana;
+    this.totalReceita += receita;
+    this.totalCustoMP += custoMP;
+    this.totalEstocagem += despesaEstocagem;
+    this.totalPerdas += perdas;
+    this.totalDespesasFixas += despesasFixas;
+
+    this.lastReceita = receita;
+    this.lastCustoMP = custoMP;
+    this.lastEstocagem = despesaEstocagem;
+    this.lastPerdas = perdas;
+    this.lastDespesasFixas = despesasFixas;
+
+    // Custo de penalidades e armazenagem (legado de compatibilidade)
+    this.totalCost += despesaEstocagem + perdas;
 
     // 9. Verificar condição de estabilidade:
     // Novos pedidos não atendidos = 0, sem backorders e estoque igual à demanda
@@ -121,6 +169,12 @@ class BakeryGame {
       consumidores: atendidos,
       pedido: pedido,
       stableWeeks: this.stableWeeks,
+      receita: receita,
+      custoMP: custoMP,
+      despesaEstocagem: despesaEstocagem,
+      perdas: perdas,
+      despesasFixas: despesasFixas,
+      lucroAcumulado: this.lucroAcumulado,
     });
 
     // 11. Verificar encerramento da simulação:
@@ -157,6 +211,21 @@ class BakeryGame {
       stableWeeks: this.stableWeeks,
       stabilityAchieved: this.stabilityAchieved,
       history: this.history,
+
+      // Dados Financeiros da rodada
+      receita: this.lastReceita,
+      custoMP: this.lastCustoMP,
+      despesaEstocagem: this.lastEstocagem,
+      perdas: this.lastPerdas,
+      despesasFixas: this.lastDespesasFixas,
+      lucroAcumulado: this.lucroAcumulado,
+
+      // Totais acumulados para o relatório final
+      totalReceita: this.totalReceita,
+      totalCustoMP: this.totalCustoMP,
+      totalEstocagem: this.totalEstocagem,
+      totalPerdas: this.totalPerdas,
+      totalDespesasFixas: this.totalDespesasFixas,
     };
   }
 }
@@ -389,6 +458,14 @@ function setupGameControls() {
   });
 }
 
+// Helper de formatação monetária (Real Brasileiro)
+function formatMoeda(val) {
+  return Number(val).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+}
+
 // Update DOM elements on game board
 function updateUI(state) {
   document.getElementById("val-semana").textContent = String(
@@ -404,6 +481,33 @@ function updateUI(state) {
   document.getElementById("val-demanda").textContent = state.demanda;
   document.getElementById("val-backorders").textContent = state.backorders;
   document.getElementById("val-total").textContent = state.total;
+
+  // Painel Financeiro
+  const elReceita = document.getElementById("val-receita");
+  if (elReceita) elReceita.textContent = formatMoeda(state.receita);
+
+  const elCustoMP = document.getElementById("val-custo-mp");
+  if (elCustoMP) elCustoMP.textContent = formatMoeda(state.custoMP);
+
+  const elEstocagem = document.getElementById("val-despesa-estocagem");
+  if (elEstocagem) elEstocagem.textContent = formatMoeda(state.despesaEstocagem);
+
+  const elPerdas = document.getElementById("val-perdas");
+  if (elPerdas) elPerdas.textContent = formatMoeda(state.perdas);
+
+  const elFixas = document.getElementById("val-despesas-fixas");
+  if (elFixas) elFixas.textContent = formatMoeda(state.despesasFixas);
+
+  const elLucro = document.getElementById("val-lucro-acumulado");
+  if (elLucro) {
+    elLucro.textContent = formatMoeda(state.lucroAcumulado);
+    elLucro.classList.remove("positive", "negative");
+    if (Number(state.lucroAcumulado) >= 0) {
+      elLucro.classList.add("positive");
+    } else {
+      elLucro.classList.add("negative");
+    }
+  }
 
   // Disable input/buttons on game over
   const input = document.getElementById("quantidade-pedido");
@@ -452,6 +556,33 @@ function showGameOver(state) {
   const totalWeeksEl = document.getElementById("res-total-weeks");
   if (totalWeeksEl) {
     totalWeeksEl.textContent = state.semana;
+  }
+
+  // Preencher Resultados Financeiros Consolidados
+  const resReceita = document.getElementById("res-total-receita");
+  if (resReceita) resReceita.textContent = formatMoeda(state.totalReceita);
+
+  const resCustoMP = document.getElementById("res-total-custo-mp");
+  if (resCustoMP) resCustoMP.textContent = formatMoeda(state.totalCustoMP);
+
+  const resEstocagem = document.getElementById("res-total-estocagem");
+  if (resEstocagem) resEstocagem.textContent = formatMoeda(state.totalEstocagem);
+
+  const resPerdas = document.getElementById("res-total-perdas");
+  if (resPerdas) resPerdas.textContent = formatMoeda(state.totalPerdas);
+
+  const resFixas = document.getElementById("res-total-despesas-fixas");
+  if (resFixas) resFixas.textContent = formatMoeda(state.totalDespesasFixas);
+
+  const resLucro = document.getElementById("res-total-lucro");
+  if (resLucro) {
+    resLucro.textContent = formatMoeda(state.lucroAcumulado);
+    resLucro.classList.remove("positive", "negative");
+    if (Number(state.lucroAcumulado) >= 0) {
+      resLucro.classList.add("positive");
+    } else {
+      resLucro.classList.add("negative");
+    }
   }
 
   // Calculations
