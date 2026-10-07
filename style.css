@@ -453,10 +453,61 @@ body {
   left: 660px;
 }
 
+/* Financial Fields positioned on the board */
+.beergame-game-play-tabuleiro-input-casa.beergame-game-play-tabuleiro-input-financeiro {
+  width: auto;
+  min-width: 90px;
+  height: 35px;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 0 6px;
+  white-space: nowrap;
+}
+
+.beergame-game-play-tabuleiro-input-casa[data-casa="receita"] {
+  top: 480px;
+  left: 70px;
+}
+
+.beergame-game-play-tabuleiro-input-casa[data-casa="custo-mp"] {
+  top: 480px;
+  left: 230px;
+}
+
+.beergame-game-play-tabuleiro-input-casa[data-casa="despesa-estocagem"] {
+  top: 480px;
+  left: 400px;
+}
+
+.beergame-game-play-tabuleiro-input-casa[data-casa="perdas"] {
+  top: 480px;
+  left: 570px;
+}
+
+.beergame-game-play-tabuleiro-input-casa[data-casa="despesas-fixas"] {
+  top: 480px;
+  left: 730px;
+}
+
+.beergame-game-play-tabuleiro-input-casa[data-casa="lucro-acumulado"] {
+  top: 480px;
+  left: 890px;
+}
+
+.beergame-game-play-tabuleiro-input-financeiro.positive,
+.stat-value.positive {
+  color: var(--success-color);
+}
+
+.beergame-game-play-tabuleiro-input-financeiro.negative,
+.stat-value.negative {
+  color: var(--danger-color);
+}
+
 .beergame-game-play-acao {
   width: 100%;
   max-width: 1100px;
-  margin: 20px auto 0 auto;
+  margin: 15px auto 0 auto;
   display: flex;
   justify-content: flex-end;
 }
@@ -629,6 +680,34 @@ body {
   color: var(--primary-dark);
 }
 
+.results-financial-title {
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+.results-financial-title h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.results-financial-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 25px;
+}
+
+.stat-card.-destaque {
+  background: #fffbeb;
+  border-color: var(--primary-color);
+}
+
 .chart-container {
   width: 100%;
   height: 250px;
@@ -741,6 +820,10 @@ body {
   }
 
   .results-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .results-financial-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 

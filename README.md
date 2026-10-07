@@ -21,12 +21,16 @@ Há um intervalo de tempo obrigatório entre a decisão de compra de matéria-pr
   - Na semana seguinte (Semana $N+1$), o pedido avança para o **Processo de Produção / Forno**.
   - Somente na semana subsequente (Semana $N+2$), a farinha é assada e entra de fato no **Estoque de Pães**.
 
-### 3. Trade-off de Custos
+### 3. Modelo Econômico e Financeiro
 
-O gestor deve equilibrar duas forças de custo opostas:
+O simulador integra uma DRE gerencial que reflete a saúde financeira da padaria a cada semana:
 
-- **Custo de Manutenção do Estoque (Holding Cost):** R$ 1,00 por fornada/semana em estoque. Penaliza o excesso de estoque.
-- **Custo de Falta de Estoque / Atraso (Backorder Cost):** R$ 1,50 por fornada/semana de pães não atendidos. Penaliza o mau atendimento ao cliente e acumula para as semanas seguintes até ser quitado.
+- **Receita:** $\text{Fornadas Entregues} \times \text{R\$\, 10,00}$ (preço de venda).
+- **Custo de Matéria-Prima (Insumos):** $\text{Fornadas Pedidas} \times \text{R\$\, 4,00}$ (custo da farinha/ingredientes).
+- **Despesa com Estocagem (Holding Cost):** $\text{Estoque em Mãos} \times \text{R\$\, 1,00}$ por fornada/semana. Penaliza o excesso de estoque.
+- **Perdas (Backorder Cost / Atrasos):** $\text{Pedidos Não Atendidos Acumulados} \times \text{R\$\, 1,50}$ por fornada/semana. Penaliza faltas e insatisfação do cliente.
+- **Despesas Fixas:** $\text{R\$\, 30,00}$ por semana (custos operacionais fixos: aluguel, salários, energia).
+- **Lucro Acumulado:** Saldo líquido acumulado ao longo da simulação ($\sum [\text{Receita} - (\text{Matéria-Prima} + \text{Estocagem} + \text{Perdas} + \text{Despesas Fixas})]$).
 
 ---
 
@@ -122,9 +126,15 @@ O simulador utiliza um tabuleiro visual baseado em uma imagem de alta resoluçã
 | **Estoque**                           | `[data-casa="estoque"]`       | `top: 275px; left: 665px;`  |
 | **Não Atendidos**                     | `[data-casa="nao-atendidos"]` | `top: 305px; left: 840px;`  |
 | **Consumidores**                      | `[data-casa="consumidores"]`  | `top: 200px; left: 975px;`  |
-| **Demanda**                           | `[data-casa="demanda"]`       | `top: 475px; left: 410px;`  |
-| **Atrasos (Backorder)**               | `[data-casa="backorders"]`    | `top: 475px; left: 595px;`  |
-| **Total de Pedidos dos Consumidores** | `[data-casa="total"]`         | `top: 475px; left: 740px;`  |
+| **Demanda**                           | `[data-casa="demanda"]`           | `top: 330px; left: 400px;`  |
+| **Atrasos (Backorder)**               | `[data-casa="backorders"]`        | `top: 330px; left: 535px;`  |
+| **Total de Pedidos dos Consumidores** | `[data-casa="total"]`             | `top: 330px; left: 660px;`  |
+| **Receita**                           | `[data-casa="receita"]`           | `top: 480px; left: 70px;`   |
+| **Custo de Matéria-Prima**            | `[data-casa="custo-mp"]`          | `top: 480px; left: 230px;`  |
+| **Despesa com Estocagem**             | `[data-casa="despesa-estocagem"]` | `top: 480px; left: 400px;`  |
+| **Perdas**                            | `[data-casa="perdas"]`            | `top: 480px; left: 570px;`  |
+| **Despesas Fixas**                    | `[data-casa="despesas-fixas"]`    | `top: 480px; left: 730px;`  |
+| **Lucro Acumulado**                   | `[data-casa="lucro-acumulado"]`   | `top: 480px; left: 890px;`  |
 
 ### Mecanismo de Escala Responsiva (CSS Scale):
 

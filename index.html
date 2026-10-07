@@ -249,6 +249,50 @@
                 >
                   10
                 </div>
+
+                <!-- Financial Fields placed inside the Board -->
+                <div
+                  class="beergame-game-play-tabuleiro-input-casa beergame-game-play-tabuleiro-input-financeiro"
+                  data-casa="receita"
+                  id="val-receita"
+                >
+                  R$ 100,00
+                </div>
+                <div
+                  class="beergame-game-play-tabuleiro-input-casa beergame-game-play-tabuleiro-input-financeiro"
+                  data-casa="custo-mp"
+                  id="val-custo-mp"
+                >
+                  R$ 40,00
+                </div>
+                <div
+                  class="beergame-game-play-tabuleiro-input-casa beergame-game-play-tabuleiro-input-financeiro"
+                  data-casa="despesa-estocagem"
+                  id="val-despesa-estocagem"
+                >
+                  R$ 10,00
+                </div>
+                <div
+                  class="beergame-game-play-tabuleiro-input-casa beergame-game-play-tabuleiro-input-financeiro"
+                  data-casa="perdas"
+                  id="val-perdas"
+                >
+                  R$ 0,00
+                </div>
+                <div
+                  class="beergame-game-play-tabuleiro-input-casa beergame-game-play-tabuleiro-input-financeiro"
+                  data-casa="despesas-fixas"
+                  id="val-despesas-fixas"
+                >
+                  R$ 30,00
+                </div>
+                <div
+                  class="beergame-game-play-tabuleiro-input-casa beergame-game-play-tabuleiro-input-financeiro"
+                  data-casa="lucro-acumulado"
+                  id="val-lucro-acumulado"
+                >
+                  R$ 20,00
+                </div>
               </div>
             </div>
           </div>
@@ -448,6 +492,37 @@
           <div class="stat-card">
             <span class="stat-label">Total de Faltas (Atrasos)</span>
             <span class="stat-value" id="res-total-backlog">0</span>
+          </div>
+        </div>
+
+        <!-- Consolidated Financial summary -->
+        <div class="results-financial-title">
+          <h4>Demonstrativo Financeiro Acumulado</h4>
+        </div>
+        <div class="results-financial-grid">
+          <div class="stat-card">
+            <span class="stat-label">Receita Total</span>
+            <span class="stat-value positive" id="res-total-receita">R$ 0,00</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Custo Matéria-Prima</span>
+            <span class="stat-value" id="res-total-custo-mp">R$ 0,00</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Despesa Estocagem</span>
+            <span class="stat-value" id="res-total-estocagem">R$ 0,00</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Total de Perdas</span>
+            <span class="stat-value" id="res-total-perdas">R$ 0,00</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Despesas Fixas Totais</span>
+            <span class="stat-value" id="res-total-despesas-fixas">R$ 0,00</span>
+          </div>
+          <div class="stat-card -destaque">
+            <span class="stat-label">Lucro Acumulado Final</span>
+            <span class="stat-value positive" id="res-total-lucro">R$ 0,00</span>
           </div>
         </div>
 
