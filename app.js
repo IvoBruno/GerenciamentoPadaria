@@ -270,11 +270,7 @@ function setupNavigation() {
 
   menuHome.addEventListener("click", (e) => {
     e.preventDefault();
-    if (game) {
-      showScreen("game-screen");
-    } else {
-      showScreen("registration-screen");
-    }
+    showScreen("game-screen");
   });
 
   menuRegras.addEventListener("click", (e) => {
@@ -295,37 +291,30 @@ function setupNavigation() {
   });
 }
 
-// Show registration form screen
+// Initialize game directly (Registration screen disabled for event)
 function setupRegistrationScreen() {
-  const form = document.getElementById("start-game-form");
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
+  playerInfo = {
+    name: "Participante",
+    nick: "Jogador",
+    email: "",
+    type: "evento",
+    acceptRanking: false,
+  };
 
-    playerInfo = {
-      name: document.getElementById("player-name").value,
-      nick: document.getElementById("player-nick").value,
-      email: document.getElementById("player-email").value,
-      type: document.getElementById("player-type").value,
-      acceptRanking: document.getElementById("accept-ranking").checked,
-    };
+  const nickEl = document.getElementById("display-player-nick");
+  if (nickEl) {
+    nickEl.textContent = playerInfo.nick;
+  }
 
-    document.getElementById("display-player-nick").textContent =
-      playerInfo.nick;
+  // Initialize Game
+  game = new BakeryGame();
+  updateUI(game.getState());
 
-    // Initialize Game
-    game = new BakeryGame();
-    updateUI(game.getState());
+  // Show game screen directly
+  showScreen("game-screen");
 
-    // Shift Screens
-    showScreen("game-screen");
-
-    // Show Modal rules
-    openModal("instructions-modal");
-    showStep(1);
-
-    // Adjust Board scaling
-    setTimeout(adjustBoardScale, 100);
-  });
+  // Adjust Board scaling
+  setTimeout(adjustBoardScale, 100);
 }
 
 // Modals transitions
@@ -713,9 +702,18 @@ function showScreen(screenId) {
 }
 
 function resetToRegistration() {
-  game = null;
-  showScreen("registration-screen");
-  document.getElementById("start-game-form").reset();
+  if (!game) {
+    game = new BakeryGame();
+  } else {
+    game.reset();
+  }
+  updateUI(game.getState());
+  const input = document.getElementById("quantidade-pedido");
+  if (input) {
+    input.value = "";
+    input.focus();
+  }
+  showScreen("game-screen");
 }
 
 function openModal(modalId) {

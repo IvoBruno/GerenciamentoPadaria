@@ -129,12 +129,12 @@ O simulador utiliza um tabuleiro visual baseado em uma imagem de alta resoluçã
 | **Demanda**                           | `[data-casa="demanda"]`           | `top: 330px; left: 400px;`  |
 | **Atrasos (Backorder)**               | `[data-casa="backorders"]`        | `top: 330px; left: 535px;`  |
 | **Total de Pedidos dos Consumidores** | `[data-casa="total"]`             | `top: 330px; left: 660px;`  |
-| **Receita**                           | `[data-casa="receita"]`           | `top: 480px; left: 70px;`   |
-| **Custo de Matéria-Prima**            | `[data-casa="custo-mp"]`          | `top: 480px; left: 230px;`  |
-| **Despesa com Estocagem**             | `[data-casa="despesa-estocagem"]` | `top: 480px; left: 400px;`  |
-| **Perdas**                            | `[data-casa="perdas"]`            | `top: 480px; left: 570px;`  |
-| **Despesas Fixas**                    | `[data-casa="despesas-fixas"]`    | `top: 480px; left: 730px;`  |
-| **Lucro Acumulado**                   | `[data-casa="lucro-acumulado"]`   | `top: 480px; left: 890px;`  |
+| **Custo de Matéria-Prima (Produto)**  | `[data-casa="custo-mp"]`          | `top: 505px; left: 55px;`   |
+| **Despesa com Estocagem (Depósito)**  | `[data-casa="despesa-estocagem"]` | `top: 505px; left: 200px;`  |
+| **Perdas**                            | `[data-casa="perdas"]`            | `top: 505px; left: 360px;`  |
+| **Despesas Fixas**                    | `[data-casa="despesas-fixas"]`    | `top: 505px; left: 540px;`  |
+| **Receita**                           | `[data-casa="receita"]`           | `top: 505px; left: 735px;`  |
+| **Lucro Acumulado**                   | `[data-casa="lucro-acumulado"]`   | `top: 505px; left: 930px;`  |
 
 ### Mecanismo de Escala Responsiva (CSS Scale):
 

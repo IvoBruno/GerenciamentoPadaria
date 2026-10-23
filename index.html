@@ -64,8 +64,8 @@
 
     <!-- Main Game Section -->
     <main class="main-content">
-      <!-- Registration Screen -->
-      <section id="registration-screen" class="screen">
+      <!-- Registration Screen (Disabled for Event Presentation) -->
+      <section id="registration-screen" class="screen hide">
         <div class="card registration-card">
           <div class="card-header">
             <h2>Bem-vindo ao Simulador de Padaria</h2>
@@ -134,7 +134,7 @@
       </section>
 
       <!-- Game Play Board Screen -->
-      <section id="game-screen" class="screen hide">
+      <section id="game-screen" class="screen">
         <div class="content">
           <div class="beergame-game-play-topo">
             <div class="nome-jogador">
@@ -250,14 +250,7 @@
                   10
                 </div>
 
-                <!-- Financial Fields placed inside the Board -->
-                <div
-                  class="beergame-game-play-tabuleiro-input-casa beergame-game-play-tabuleiro-input-financeiro"
-                  data-casa="receita"
-                  id="val-receita"
-                >
-                  R$ 100,00
-                </div>
+                <!-- Financial Fields placed inside the Board (Produto -> Depósito -> Perdas -> Despesas Fixas -> Receita -> Lucro) -->
                 <div
                   class="beergame-game-play-tabuleiro-input-casa beergame-game-play-tabuleiro-input-financeiro"
                   data-casa="custo-mp"
@@ -285,6 +278,13 @@
                   id="val-despesas-fixas"
                 >
                   R$ 30,00
+                </div>
+                <div
+                  class="beergame-game-play-tabuleiro-input-casa beergame-game-play-tabuleiro-input-financeiro"
+                  data-casa="receita"
+                  id="val-receita"
+                >
+                  R$ 100,00
                 </div>
                 <div
                   class="beergame-game-play-tabuleiro-input-casa beergame-game-play-tabuleiro-input-financeiro"
